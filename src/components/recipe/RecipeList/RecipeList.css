@@ -12,11 +12,14 @@
     color: #06c106;
 }
 
-.recipe__search{
-    display: flex;
+
+.recipe__tab{
     align-content: center;
     justify-content: center;
     margin: 0 auto;
-    padding: 1.5%;
+    max-width:75%;
+    max-height: 15%;
+    flex-grow: 2;
+
 }
 

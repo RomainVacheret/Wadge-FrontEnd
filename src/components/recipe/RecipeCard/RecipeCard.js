@@ -1,5 +1,4 @@
 import React, {useEffect,useRef, useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import './RecipeCard.css';
 import {Grid, Typography,Button,Accordion,AccordionSummary,AccordionDetails,IconButton,Tooltip} from "@material-ui/core";
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -14,7 +13,7 @@ const RecipeCard = ({ recipe }) => {
     const { steps, ingredients, name, servings, difficulty, rating } = recipe;
     const [liste, setListe] = useState(new Map());
     const [favorites,setFavorites]=useState([]);
-    const [favoriIcon,setFavoriIcon]=useState(false); 
+    const [favori,setFavori]=useState(false); 
     
     useEffect(() => {
         axios.post('http://localhost:8080/recipes/ingredient', recipe)
@@ -23,8 +22,21 @@ const RecipeCard = ({ recipe }) => {
                 setListe(new Map(Object.entries(food)));
             })
     }, []);
+    const addFavorite=()=>{   
+        if(favori) {
+            axios.post('http://localhost:8080/recipes/removeFavorite', recipe)
+                .then((response) =>{
+                    const favoritesList = response.data;
+                    setFavorites([...favoritesList]);
+                });
+        }
+        else {
+               axios.post('http://localhost:8080/recipes/addFavorite', recipe);
+            }
+          setFavori(!favori);
+    }
     let isRendered = useRef(false);
-
+      
     useEffect(() => {
         isRendered = true;
         axios.get('http://localhost:8080/recipes/favorites')
@@ -34,31 +46,20 @@ const RecipeCard = ({ recipe }) => {
             let is=false;
             setFavorites([...favoritesList]);
            favorites.forEach(f=>{
-               if(f.link===recipe.link)
+               if(f.link==recipe.link)
                   is=true;
+               
            });
-           setFavoriIcon(is);
+           setFavori(is);
             }           
         })
          .catch(err => console.log(err));
            return () => {
                 isRendered = false;
           };          
-        });
+        },);
       
-      const handleAddFavorite=()=>{   
-      if(favoriIcon) {
-          axios.post('http://localhost:8080//recipes/removeFavorite', recipe)
-              .then((response) =>{
-                  const favoritesList = response.data;
-                  setFavorites([...favoritesList]);
-              });
-      }
-      else {
-          axios.post('http://localhost:8080/recipes/addFavorite', recipe);
-      }
-        setFavoriIcon(!favoriIcon);
-  }
+     
     const colorTypo = (param, ingredient ) => {
         switch(param){
             case "present":
@@ -79,8 +80,8 @@ const RecipeCard = ({ recipe }) => {
                 expandIcon={<ExpandMoreIcon fontSize="large"/>}
                 aria-controls="panel1a-content"
                 id="panel1a-header" >
-                    {favoriIcon === true?<FavoriteIcon style={{ color: "#f19300" }} fontSize="large"/>:<FavoriteBorderIcon style={{ color: "limegreen" }} fontSize="large"/>}
-                &nbsp;&nbsp;
+                    {favori == true?<FavoriteIcon style={{ color: "#f19300" }} fontSize="large"/>:<FavoriteBorderIcon style={{ color: "limegreen" }} fontSize="large"/>}
+                                 &nbsp;&nbsp;&nbsp;
                     <Typography variant="h4" className="recipe__name" >{ name }</Typography>
 
             </AccordionSummary>
@@ -100,9 +101,9 @@ const RecipeCard = ({ recipe }) => {
                             </IconButton>
                         </Link>
                     </Tooltip>
-                    <Tooltip title="Ajouter aux favoris" onClick={handleAddFavorite}>
+                    <Tooltip title="  Ajouter aux favoris" onClick={addFavorite}>
                         <IconButton className="recipe__recipe-card__favorite" color="primary" aria-label="add-to-favorite" >
-                            {favoriIcon === true?<FavoriteIcon style={{ color: "#f19300" }} fontSize="large"/>:<FavoriteBorderIcon style={{ color: "limegreen" }} fontSize="large"/>}
+                            {favori === true?<FavoriteIcon style={{ color: "#f19300" }} fontSize="large"/>:<FavoriteBorderIcon style={{ color: "limegreen" }} fontSize="large"/>}
                         </IconButton >
                     </Tooltip>
                 </Grid>

@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 
 // Custom components
-import RecipeList from './components/recipe/RecipeList/RecipeList';
+import RecipeTab from './components/recipe/RecipeTab/RecipeTab.js';
 import FoodList from "./components/food/FoodList/FoodList";
 import FridgeAddition from './components/fridge/FridgeAddition/FridgeAddition';
 import FridgeDisplay from "./components/fridge/FridgeDisplay/FridgeDisplay";
@@ -30,7 +30,9 @@ function App() {
           <Route
             exact
             path='/recipes'
-            render={ () => <RecipeList data-testid="recipes"/> }
+            render={ () => <RecipeTab data-testid="recipes"/>
+           
+           }
           />
           <Route
               exact

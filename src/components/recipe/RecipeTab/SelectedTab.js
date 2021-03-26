@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import './RecipeList.css';
+import  React,{ useState, useEffect } from 'react';
+import '../RecipeList/RecipeList.css';
 import RecipeCard from '../RecipeCard/RecipeCard';
-import FilterSelect from './FilterSelect';
+import FilterSelect from '../RecipeList/FilterSelect.js';
 import {  fetchFromUrl} from 'utils';
 
-const RecipeList = () => {
+
+const SelectedTab = ({tabSelected}) => {
+    
     const [recipeList, setRecipeList] = useState([]);
     const [recipes, setRecipes] = useState([]);
-    
+
 
     useEffect(() => {
-        fetchFromUrl('recipes', setRecipeList);
+        fetchFromUrl(tabSelected, setRecipeList);
     }, []);
-
     useEffect(() => {
-        fetchFromUrl('recipes', setRecipeList);
+        fetchFromUrl(tabSelected, setRecipeList);
     },);
     useEffect(() => setRecipes([...recipeList]), [recipeList]);
-
    
     return (
         <>
-               <FilterSelect setRecipeList={setRecipeList} tabSelected='recipes'/>
+               <FilterSelect setRecipeList={setRecipeList} tabSelected={tabSelected}/>
                <div className='recipe__container'> {
                recipes.map((recipe, idx) => 
                 ( <RecipeCard recipe={ recipe } key={ idx } />
@@ -32,4 +32,4 @@ const RecipeList = () => {
     );
 }
 
-export default RecipeList;
+export default SelectedTab ;
