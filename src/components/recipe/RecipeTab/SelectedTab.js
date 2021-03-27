@@ -8,22 +8,20 @@ import {  fetchFromUrl} from 'utils';
 const SelectedTab = ({tabSelected}) => {
     
     const [recipeList, setRecipeList] = useState([]);
-    const [recipes, setRecipes] = useState([]);
+   
 
 
     useEffect(() => {
         fetchFromUrl(tabSelected, setRecipeList);
     }, []);
-    useEffect(() => {
-        fetchFromUrl(tabSelected, setRecipeList);
-    },);
-    useEffect(() => setRecipes([...recipeList]), [recipeList]);
+ 
+
    
     return (
         <>
                <FilterSelect setRecipeList={setRecipeList} tabSelected={tabSelected}/>
                <div className='recipe__container'> {
-               recipes.map((recipe, idx) => 
+               recipeList.map((recipe, idx) => 
                 ( <RecipeCard recipe={ recipe } key={ idx } />
                 )
              )
