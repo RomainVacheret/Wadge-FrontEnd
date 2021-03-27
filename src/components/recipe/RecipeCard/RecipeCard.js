@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 
-const RecipeCard = ({ recipe }) => {
+const RecipeCard = ({ recipe,tabSelected }) => {
     const { steps, ingredients, name, servings, difficulty, rating } = recipe;
     const [liste, setListe] = useState(new Map());
     const [favorites,setFavorites]=useState([]);
@@ -36,7 +36,27 @@ const RecipeCard = ({ recipe }) => {
           setFavori(!favori);
     }
     let isRendered = useRef(false);
-      
+    useEffect(() => {
+        isRendered = true;
+        axios.get('http://localhost:8080/recipes/favorites')
+        .then((response) =>{
+            if (isRendered) {
+                const favoritesList = response.data;
+            let is=false;
+            setFavorites([...favoritesList]);
+           favorites.forEach(f=>{
+               if(f.link==recipe.link)
+                  is=true;
+               
+           });
+           setFavori(is);
+            }           
+        })
+         .catch(err => console.log(err));
+           return () => {
+                isRendered = false;
+          };          
+        },[]);
     useEffect(() => {
         isRendered = true;
         axios.get('http://localhost:8080/recipes/favorites')
@@ -58,8 +78,8 @@ const RecipeCard = ({ recipe }) => {
                 isRendered = false;
           };          
         },);
-      
-     
+
+
     const colorTypo = (param, ingredient ) => {
         switch(param){
             case "present":
@@ -80,7 +100,7 @@ const RecipeCard = ({ recipe }) => {
                 expandIcon={<ExpandMoreIcon fontSize="large"/>}
                 aria-controls="panel1a-content"
                 id="panel1a-header" >
-                    {favori == true?<FavoriteIcon style={{ color: "#f19300" }} fontSize="large"/>:<FavoriteBorderIcon style={{ color: "limegreen" }} fontSize="large"/>}
+                    {((favori === true)||(tabSelected.indexOf('favorites')!==-1))?<FavoriteIcon style={{ color: "#f19300" }} fontSize="large"/>:<FavoriteBorderIcon style={{ color: "limegreen" }} fontSize="large"/>}
                                  &nbsp;&nbsp;&nbsp;
                     <Typography variant="h4" className="recipe__name" >{ name }</Typography>
 
@@ -103,7 +123,7 @@ const RecipeCard = ({ recipe }) => {
                     </Tooltip>
                     <Tooltip title="  Ajouter aux favoris" onClick={addFavorite}>
                         <IconButton className="recipe__recipe-card__favorite" color="primary" aria-label="add-to-favorite" >
-                            {favori === true?<FavoriteIcon style={{ color: "#f19300" }} fontSize="large"/>:<FavoriteBorderIcon style={{ color: "limegreen" }} fontSize="large"/>}
+                            {((favori === true)||(tabSelected.indexOf('favorites')!==-1))?<FavoriteIcon style={{ color: "#f19300" }} fontSize="large"/>:<FavoriteBorderIcon style={{ color: "limegreen" }} fontSize="large"/>}
                         </IconButton >
                     </Tooltip>
                 </Grid>

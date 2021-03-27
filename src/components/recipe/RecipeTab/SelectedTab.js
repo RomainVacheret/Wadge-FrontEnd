@@ -22,7 +22,7 @@ const SelectedTab = ({tabSelected}) => {
                <FilterSelect setRecipeList={setRecipeList} tabSelected={tabSelected}/>
                <div className='recipe__container'> {
                recipeList.map((recipe, idx) => 
-                ( <RecipeCard recipe={ recipe } key={ idx } />
+                ( <RecipeCard recipe={ recipe } key={ idx } tabSelected={tabSelected} />
                 )
              )
             } </div>
