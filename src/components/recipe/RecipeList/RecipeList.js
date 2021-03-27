@@ -12,7 +12,9 @@ const RecipeList = () => {
         fetchFromUrl('recipes', setRecipeList);
     }, []);
 
-
+    useEffect(() => {
+        fetchFromUrl('recipes', setRecipeList);
+    },);
    
     return (
         <>

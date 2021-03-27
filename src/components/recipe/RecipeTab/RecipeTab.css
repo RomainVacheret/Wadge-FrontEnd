@@ -1,12 +1,19 @@
 .recipe__tab{
     align-content: center;
     justify-content: center;
-    max-width:15px;
+    max-width:45%;
     max-height: 10%;
     flex-grow: 1;
-    background-color:white;
-    color:limegreen;
+    color:white;
     padding: 1;
     margin-bottom: 2;
+    background-color: #f19300 ;
+}
 
+
+ .active_tabStyle{
+ font-size:18;
+ color: limegreen;
+  background-color: #282c34;
+  
 }

@@ -8,14 +8,14 @@ import {  fetchFromUrl} from 'utils';
 const SelectedTab = ({tabSelected}) => {
     
     const [recipeList, setRecipeList] = useState([]);
-   
-
 
     useEffect(() => {
         fetchFromUrl(tabSelected, setRecipeList);
     }, []);
  
-
+    useEffect(() => {
+        fetchFromUrl(tabSelected, setRecipeList);
+    },);
    
     return (
         <>

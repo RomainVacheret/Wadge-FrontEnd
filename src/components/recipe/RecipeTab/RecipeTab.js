@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import RecipeList from '../RecipeList/RecipeList.js';
+import './RecipeTab.css';
 
 import React,{ useState} from 'react';
 function TabPanel(props) {
@@ -61,14 +62,15 @@ const  RecipeTab=() =>{
           value={value}
           onChange={handleChange}
           indicatorColor="primary"
-          textColor="primary"
+          className= "active_tabStyle"
           variant="fullWidth"
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-            <Tab icon={<LocalDiningIcon/>} label="Toutes Les Recettes" {...setPropsTab(0)} />
-          <Tab icon={<FavoriteIcon />} label="Recettes Favorites" {...setPropsTab(1)} />
-          <Tab icon={<CheckCircleIcon />} label="Recettes Realisées"  {...setPropsTab(2)}/>
+            <Tab icon={<LocalDiningIcon/>} label="Toutes Les Recettes" {...setPropsTab(0)}  
+           />
+          <Tab icon={<FavoriteIcon />} label="Recettes Favorites" {...setPropsTab(1)}   />
+          <Tab icon={<CheckCircleIcon />}   label="Recettes Realisées"  {...setPropsTab(2)}  />
         </Tabs>
       </Paper>
       <TabPanel value={value} index={0}>
